@@ -1,25 +1,24 @@
 class ProjectsController < ApplicationController
-
-    before_action :set_project, only: [:show, :update, :destroy]
+    before_action :authenticate_user!
+    before_action :set_projects
 
     def index
-        render json:Project.all
+        puts 1
+        puts current_user
+        render json: current_user.projects
+        # render json:Project.all
     end
 
 
     def show
-        render json: @project
+        puts current_user
+        render json: current_user.projects.all
     end
 
 
     # POST /projects
     def create
-        @project = Project.new(project_params)
-        if @project.save
-            render json: @project, status: :created, location: @project
-        else
-            render json: @project.errors, status: :unprocessable_entity
-        end
+        render json: current_user.projects.create(project_params)
     end
 
     # PATCH/PUT /projects/1
@@ -37,10 +36,10 @@ class ProjectsController < ApplicationController
     end
 
     private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-        @project = Project.find(params[:id])
+    def set_projects
+       @projects = current_user.projects
     end
+
     
     # Only allow a trusted parameter "white list" through.
     def project_params

@@ -47,4 +47,13 @@ DeviseTokenAuth.setup do |config|
   # If, however, you wish to integrate with legacy Devise authentication, you can
   # do so by enabling this flag. NOTE: This feature is highly experimental!
   # config.enable_standard_devise_support = false
+
+end
+
+
+
+Devise.setup do |config|
+#    config.secret_key = InlayApi::Application.config.secret_key_base || ENV['SECRET_KEY_BASE']
+  config.secret_key = 'de0ba9f87e3f2de7d236601fd3987862e81375db515a82557b33404149466ef9331e79fe1de001d3bc1d0a65af5f4183d6b0c7f3a3e3f9f3643df3b8909abed9'
+
 end
