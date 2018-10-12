@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
   # GET /user
   def show
-    render json: current_user
+    render json: User.find_by(uid: current_user.uid)
   end
 
   # PATCH /user

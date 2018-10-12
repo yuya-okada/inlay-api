@@ -3,16 +3,17 @@ class ProjectsController < ApplicationController
     before_action :set_projects
 
     def index
-        puts 1
-        puts current_user
         render json: current_user.projects
         # render json:Project.all
     end
 
 
     def show
-        puts current_user
-        render json: current_user.projects.all
+        puts "-----------"
+        puts project_id_param
+        puts "-----------"
+        project = @projects.find(params[:id])
+        render json: project
     end
 
 
@@ -23,10 +24,11 @@ class ProjectsController < ApplicationController
 
     # PATCH/PUT /projects/1
     def update
-        if @project.update(project_params)
-            render json: @project
+        project = @projects.find(params[:id])
+        if project.update(project_params)
+            render json: project
         else
-            render json: @project.errors, status: :unprocessable_entity
+            render json: project.errors, status: :unprocessable_entity
         end
     end
 
@@ -40,11 +42,15 @@ class ProjectsController < ApplicationController
        @projects = current_user.projects
     end
 
+    def project_id_param
+        return params.fetch(:projectId, nil)
+    end
     
     # Only allow a trusted parameter "white list" through.
     def project_params
         dataParam = params.fetch(:data, "")
         nameParam = params.fetch(:name, "")
+        
         return {data: dataParam, name: nameParam}
     end
     
